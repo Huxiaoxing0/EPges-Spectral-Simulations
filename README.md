@@ -1,51 +1,48 @@
-# EPGES Spectral-Dimension Validation Code
+# EPGES Spectral-Rank Simulations
 
-This repository contains reproducibility code for the numerical and exact
-spectral checks used in the EPGES manuscript:
+This repository contains the reproducibility code and tabulated data for the
+numerical checks accompanying the manuscript:
 
-**Euler-Phase Geometry of Emergent Spacetime: A Spectral-Rank
-Consistency Criterion for Four-Dimensionality**.
+**Phase Adjacency, Spectral Rank, and Four-Dimensional Compatibility:
+Bridge Standards for Dimensional Emergence**.
 
-Repository: https://github.com/Huxiaoxing0/EPges-Spectral-Simulations
+Repository: <https://github.com/Huxiaoxing0/EPges-Spectral-Simulations>
 
-Archived release DOI: https://doi.org/10.5281/zenodo.20621711
+Archived release DOI: <https://doi.org/10.5281/zenodo.20745894>
 
-The code illustrates the intrinsic phase-torus proposition, finite-size
-convergence, anisotropic weights, generator-set dependence, complete-graph
-no-go behavior, random local conductance diagnostics, and a toy rank-sector
-selection scan.
+The code supports the manuscript's finite-size heat-kernel checks, Bessel-flow
+constants, anisotropic-weight tests, generator-rank comparisons, complete-graph
+no-go diagnostic, and the nonseparable two-dimensional conductance stress test.
 
-## Scripts
+## Scope
 
-- `scripts/epges_spectral_validation.py`
-  - Generates the main figures used in the manuscript.
-  - Uses exact heat-kernel sums and closed Bessel formulae.
-  - No Monte Carlo sampling is used.
-  - Outputs figures and constants to `outputs/figures_v12/`.
+The scripts are reproducibility aids for the spectral-rank calculations in the
+paper. They do not derive a microscopic dynamics, a Lorentzian signature,
+gravity, the Standard Model, or rank-four selection. Those questions are
+identified in the manuscript as separate bridge problems.
 
-- `scripts/epges_random_local_bridge_benchmark.py`
-  - Explores a local random conductance bridge toy model.
-  - Uses dense graph Laplacians and exact eigenvalues for small finite systems.
-  - Outputs CSV files plus SVG/PNG diagnostics to `outputs/`.
+## Repository Layout
 
-- `scripts/epges_nonseparable_2d_bridge.py`
-  - Numerical evidence for Conjecture 1 (random local phase-conductance bridge)
-    in the nonseparable case: i.i.d. uniformly elliptic conductances on every
-    edge of `(Z_N)^2`.
-  - Compares two independent exact computations: the graph spectrum (quenched
-    `d_s(sigma)` plateau converging to 2) and the periodic discrete corrector
-    (cell) problem (homogenized matrix `A_hom`, rank 2). Verifies that
-    `D_eff = sqrt(det A_hom)` tracks the geometric mean and is strictly inside
-    the Wiener bounds -- i.e. `A_hom` is not the coordinatewise harmonic mean --
-    and that the heat-trace plateau constant matches `(det A_hom)^{-1/2}`.
-  - numpy + matplotlib only; no Monte Carlo dynamics (exact spectra and an exact
-    CG corrector solve). Outputs `outputs/epges_nonsep2d_spectral.csv`,
-    `outputs/epges_nonsep2d_homogenized.csv`, and
-    `outputs/epges_nonsep2d_bridge.png`.
+```text
+scripts/
+  epges_spectral_validation.py
+  epges_nonseparable_2d_bridge.py
+  epges_random_local_bridge_benchmark.py
+  epges_rank_sector_threshold_scan.py
 
-- `scripts/epges_rank_sector_threshold_scan.py`
-  - Implements a toy free-energy threshold scan for rank-sector selection.
-  - Outputs CSV tables and an SVG phase diagram to `outputs/`.
+outputs/
+  figures_v12/
+    fig7_bessel_dimension_flow.png
+    fig1_core_proposition_v12.png
+    fig4_anisotropy_corrected_v12.png
+    fig5_generators_v12.png
+    fig8_redundant_generators_v12.png
+    fig6_complete_graph_v12.png
+    epges_bessel_constants_v12.csv
+```
+
+The manuscript source package may use cleaned figure names, but the numerical
+content is the same as the files generated here.
 
 ## Requirements
 
@@ -57,18 +54,36 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-The main spectral script requires `numpy` and `matplotlib`.
-The random local bridge script additionally requires `Pillow`.
+Main dependencies:
 
-## Reproduce the manuscript figures
+- `numpy`
+- `matplotlib`
+- `Pillow`
 
-From the repository root:
+## Reproduce Manuscript Figures and Tables
+
+### Figures 1-6 and Bessel constants
+
+Run:
 
 ```bash
 python scripts/epges_spectral_validation.py
 ```
 
-Expected key constants:
+This script uses exact finite heat-kernel sums and closed Bessel expressions.
+It does not use Monte Carlo sampling.
+
+Generated manuscript outputs include:
+
+- `outputs/figures_v12/fig7_bessel_dimension_flow.png`
+- `outputs/figures_v12/fig1_core_proposition_v12.png`
+- `outputs/figures_v12/fig4_anisotropy_corrected_v12.png`
+- `outputs/figures_v12/fig5_generators_v12.png`
+- `outputs/figures_v12/fig8_redundant_generators_v12.png`
+- `outputs/figures_v12/fig6_complete_graph_v12.png`
+- `outputs/figures_v12/epges_bessel_constants_v12.csv`
+
+Expected Bessel-flow constants:
 
 ```text
 sigma_c = 0.851189972436
@@ -79,31 +94,59 @@ n=3: sigma* = 0.209702355585
 n=4: sigma* = 0.146128850640
 ```
 
-Generated files include:
+### Nonseparable two-dimensional conductance bridge check
 
-- `outputs/figures_v12/fig7_bessel_dimension_flow.png`
-- `outputs/figures_v12/fig1_core_proposition_v12.png`
-- `outputs/figures_v12/fig4_anisotropy_corrected_v12.png`
-- `outputs/figures_v12/fig5_generators_v12.png`
-- `outputs/figures_v12/fig8_redundant_generators_v12.png`
-- `outputs/figures_v12/fig6_complete_graph_v12.png`
-- `outputs/figures_v12/epges_bessel_constants_v12.csv`
+Run:
 
-## Run auxiliary diagnostics
+```bash
+python scripts/epges_nonseparable_2d_bridge.py
+```
+
+This script generates the nonseparable uniformly elliptic two-dimensional
+stress test reported in the manuscript discussion, including the spectral
+plateau data and homogenized conductance tables.
+
+Expected output files include:
+
+- `epges_nonsep2d_spectral.csv`
+- `epges_nonsep2d_homogenized.csv`
+- `fig9_nonseparable_2d_bridge.png`
+
+Depending on the script version, these files may be written under an `outputs`
+or `outputs/figures_v12` directory.
+
+## Auxiliary Exploratory Diagnostics
+
+The following scripts are included for transparency but are not used as proofs
+or as numbered manuscript figures:
 
 ```bash
 python scripts/epges_random_local_bridge_benchmark.py
 python scripts/epges_rank_sector_threshold_scan.py
-python scripts/epges_nonseparable_2d_bridge.py
 ```
 
-These auxiliary scripts are exploratory. They are not used as proofs in the
-paper; they illustrate finite-size and toy-model behavior. The nonseparable 2D
-script in particular supplies numerical *evidence* for Conjecture 1, not a proof.
+- `epges_random_local_bridge_benchmark.py` explores small finite random local
+  bridge toy models using dense graph Laplacians.
+- `epges_rank_sector_threshold_scan.py` explores a toy free-energy threshold
+  scan for rank-sector selection.
 
-## Scientific scope
+These auxiliary diagnostics should be read as exploratory checks only. The
+analytic claims of the paper rest on the heat-kernel formulae, bridge
+conditions, and cited homogenization results stated in the manuscript.
 
-The code supports exact and finite-size checks for spectral-dimension claims.
-It does **not** derive the Standard Model, gravity, the Born rule, or a complete
-microscopic dynamics. The main analytic claims remain the heat-kernel formulae
-and consistency filters stated in the manuscript.
+## Manuscript-to-Code Map
+
+| Manuscript item | Script |
+| --- | --- |
+| Bessel-flow constants and finite phase-torus checks | `scripts/epges_spectral_validation.py` |
+| Anisotropic-weight and generator-rank finite checks | `scripts/epges_spectral_validation.py` |
+| Complete-graph no-go diagnostic | `scripts/epges_spectral_validation.py` |
+| Nonseparable 2D bridge stress test | `scripts/epges_nonseparable_2d_bridge.py` |
+| Auxiliary random local bridge benchmark | `scripts/epges_random_local_bridge_benchmark.py` |
+| Auxiliary rank-sector threshold scan | `scripts/epges_rank_sector_threshold_scan.py` |
+
+## Citation
+
+If using the archived code package, cite the Zenodo DOI:
+
+<https://doi.org/10.5281/zenodo.20745894>
